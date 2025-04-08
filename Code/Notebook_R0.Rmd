@@ -1,8 +1,8 @@
 ---
 title: "Covid Analysis Matteo Bracco"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 editor_options:
   chunk_output_type: inline
 ---
