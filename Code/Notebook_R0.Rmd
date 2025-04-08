@@ -17,7 +17,7 @@ The LGCA model addresses the spatial diffusion component in an epidemic spread, 
 
 To simulate an LGCA model, we will need data coming from a small and possible sparse population, to be able to work from my Laptop, and to make the spatial diffusion effect noticeable on the epidemic spread. A good possibility is to use data coming from low density areas, for instance some county in Alaska will do. We will firstly try to use those data to estimate parameters for the SIR model, then we will run a SIR and LGCA simulation.
 
-We will then use $\beta$ with the other SIR parameters to run an LGCA and some Modified LGCA simulations in a  [Jupyther Notebbok](./Covid_Bracco.ipynb), and we will compare the results with SIR simulations and real data here on this R Notebook.
+We will then use $\beta$ with the other SIR parameters to run an LGCA and some Modified LGCA simulations in a  [Jupyther Notebook](./Covid_Bracco.ipynb), and we will compare the results with SIR simulations and real data here on this R Notebook.
 
 Let's start by implementing the necessary library, importing the data and define some functions to visualize time series with ggplot2. The data selected comes from the Kodiak Island Area in Alaska. Its population from 2020 found in [censu.gov](https://www.census.gov) was of $13100$ people.
 ```{r,warnings=FALSE}
@@ -77,9 +77,9 @@ We start by plotting the registered infected population over time.
 infected_series(Inf_AL$date,Inf_AL$new_confirmed)
 
 ```
-We can see that there are three separate epidemic peeks. Note that for the last two peeks, there is a big heterogeneity in the registration of new infected, represented by the big jumps in our time series, this can be caused by different flows in the data collection procedure, for instance all the new cases where registered at the end of the week instead of being registered day by day.
+We can see that there are three separate epidemic peeks. Note that for the last two peeks, there is a big heterogeneity in the registration of new infected, represented by the big jumps in our time series, this can be caused by different flows in the data collection procedure, for instance all the new cases were registered at the end of the week instead of being registered day by day.
 
-This pehonomenon is also present in the first peak, but it's less impactful, which probably means that the lower number of registered people can be linked to the lower number of tested people, which unfortunately is not an available data for this dataset.
+This pehonomenon is also present in the first peak, but it's less impactful, which probably means that the lower number of registered people can be linked to the lower number of tested people, unfortunately this is not an available data for this dataset.
 
 We will then try to work on the first peak, as zero values would be an issue when estimating $\beta$. 
 
@@ -94,7 +94,8 @@ infected_series(date,obs,"New Positives October-December 2020")
 
 ```
 
-We choose a reasonable time interval as the exponential growth period of the new confirmed cases:
+We choose a reasonable time interval as the exponential growth period of the new confirmed cases, it is difficult to accurate locate the exact time period in which the growth is exponential
+with the structure of our dataset
 
 ```{r}
 start2=which(date=="2020-11-27")
@@ -108,7 +109,7 @@ We can then fit this data to estimate $\beta$, see [Junling Ma](https://doi.org/
 $$ \frac{dS}{dt} = -\frac \beta N SI$$
 $$ \frac{dI}{dt} = \frac \beta N SI-\gamma I $$
 $$ \frac{dR}{dt} = \gamma I $$
-In the beginning of the epidemic curve, we can suppose $S \simeq N$. Let $C=\frac \beta N SI$ be the incidence number, i.e the new cases per day, then we have that $C\simeq \beta I=\beta I_0e^{\lambda \cdot t}$, where $\lambda= \beta-\gamma$. We can fit the new confirmed cases in the exponential growth period to estimate $\beta$. Note that, even if we only register a fraction $p\in (0,1)$ of the real new positive cases, the fitting process will not change the $\beta$ estimation:
+In the beginning of the epidemic curve, we can suppose $S \simeq N$. Let $C=\frac \beta N SI$ be the incidence number, i.e the new cases per day, then we have $C\simeq \beta I=\beta I_0e^{\lambda \cdot t}$, where $\lambda= \beta-\gamma$. We can fit the new confirmed cases in the exponential growth period to estimate $\beta$. Note that, even if we only register a fraction $p\in (0,1)$ of the real new positive cases, the fitting process will not change the $\beta$ estimation:
 
 $$pC\simeq p\beta I_0e^{\lambda \cdot t}= C_0 e^{\lambda \cdot t}$$
 If $pC$ is growing exponential, we can fit the log of our data which will be growing linearly, precisely
@@ -147,8 +148,6 @@ ggplot(df_fit, aes(x = as.Date(date_exp))) +
 
 ```
 
-
-
 This is the value of $\beta$ we will use in the simulations
 
 ## The Initial Number of Infected People and the Starting Date
@@ -162,9 +161,9 @@ obs=Inf_AL$new_confirmed[start:stop]
 date=Inf_AL$date[start:stop]
 infected_series(date,obs)
 ```
-As we can see there was a small peak around August, afterwards the situation seemed to be stable with almost no new positive cases between September and the start of October Hence we can reasonably start our Simulation at the beginning of October. Note that previously there where not some big wawes of Covid-19 in the Area, so we can assume the initial value of recovered people to be $0$ as well.
+As we can see there was a small peak around August, afterwards the situation seemed to be stable with almost no new positive cases between September and the start of October. Hence we can reasonably start our simulation at the beginning of October. Note that previously there weren't any large wawes of Covid-19 in the area, so we can assume the initial value of recovered people to be $0$ as well.
 
-The other option would be to simulate the epidemic from the start of July, however the $\beta$ estimation ha a local character. Hence it is best to limit our simulations to a span of $100$ days across the autumn/winter season in Alaska, which also keeps reasonable the computational time for the Simulations.
+The other option would be to simulate the epidemic from the start of July, however the $\beta$ estimation has a local character. Hence it is best to limit our simulations to a span of $100$ days across the autumn/winter season in Alaska, which also keeps reasonable the computational time for the simulations.
 
 The number of infected people at October $1^{st}$ is the most difficult parameter to estimate, we can start by evaluating the sum in the $5$ preceding days of the registered infected individuals
 ```{r}
@@ -172,7 +171,7 @@ end=which(Inf_AL$date=="2020-10-01")
 start=end-5
 sum(Inf_AL$new_confirmed[start:end])
 ```
-This estimate is a probably a lower bound on the real number of infected people for October $1^{st}. We can at least triple such number to represent the initial population of infected people. However if the models are robust enough, we shall not expect small changes in the initial values to compromise the quality development of our simulations, which is the aspect which interest us the most.
+This estimate is probably a lower bound on the real number of infected people for October $1^{st}. We can at least triple such number to represent the initial population of infected people. However if the models are robust enough, we shall not expect small changes in the initial values to compromise at least the quality development of our simulations.
 
 
 
@@ -195,8 +194,7 @@ Initial
 # Simulations Comparisons
 
 
-
-We can load the number of new infected per day simulated via the LGCA simulation in python. The idea is to compare such results with real data and results of the classic SIR model.
+We load the LGCA simulation results from the Jupyter Notebook, we will compare this simulation with real data and an SIR simulation.
 
 ```{r}
 history=py_load_object("LGCAv4.pckl")
@@ -238,7 +236,6 @@ SIR_obs =as.data.frame(ode( #Solvin the ODE
 
 
 ```
-
 We can derive the incidence of the susceptibles with the following functions, an analogous version can be found in the Python script
 ```{r}
 find_incid <- function(I,R){
@@ -258,7 +255,7 @@ find_incid <- function(I,R){
 incid_SIR=find_incid(SIR_obs$I,SIR_obs$R)
 ```
 
-We can then build a data.frame containing real data, LGCA data and SIR data and compare the results
+We can then build a data.frame containing real data, LGCA data and SIR data to compare the results
 
 ```{r,warning=FALSE}
 start=which(Inf_AL$date==date0)
@@ -279,13 +276,13 @@ colnames(Incid_new) <- c("times","LGCA","Real Data")
 Multiple_series(Incid_new, "LGCA vs Reald Data")
 
 ```
-The LGCA model seems in fact to have a very small and very large peak $20$ days after the SIR model, quite closer to the real registered peak, but the estimates of the new positive cases are very low, even when compared with the registered data, and the peak is barely noticeable, and we can't really exclude that it only happened because of stochastic effects of this specific simulation. Obviously the best solution would be to run more simulations and take the average to solve such issue, but we do not have the computational power to do so. 
+The LGCA model seems in fact to have a very low and very large peak $20$ days after the SIR model, quite closer to the real registered peak, but the estimates of the new positive cases are very low, even when compared with the registered data, and the peak is barely noticeable, hence we can't really exclude that it only happened because of stochastic effects of this specific simulation. Obviously the best solution would be to run more simulations and take the average to solve such issue, but we do not have the computational power to do so. 
 
 Nevertheless, the development of the LGCA simulation doesn't seem to follow the real epidemic spread, even from a qualitative point of view, as we should at least see a significant increase in the new registered cases.
 
 This is probably due to the restrictive law of motions and the large grid imposed by the LGCA model.
 
-However, such restrictions where not justified theoretically in [ Schneckenreither et al.](https://doi.org/10.1016/j.simpat.2008.05.015)., hence we may as well change them. The Modified LGCA algorithms removes the restriction imposed by the law of motions between neighbor cells, as well as removing the "PacMan Effect".
+However, such restrictions where not justified theoretically in [ Schneckenreither et al.](https://doi.org/10.1016/j.simpat.2008.05.015), hence we may as well change them. The Modified LGCA algorithms removes the restriction imposed by the law of motions between neighbor cells, as well as removing the "PacMan Effect". More details on the LGCAìs models are available in the Jupyter Notebook.
 
 Moreover we allow for smaller squared grids which also drastically decrease the computational time for each simulation. We can for example compare the effects of this Modified LGCA algorithm on squared grid of dimension $10k,\quad k=1,\dots,10$.
 
@@ -340,11 +337,11 @@ The modified LGCA simulations presents some interesting features linked to the b
 
 When $d=10$ the simulation seems to behave accordingly to the SIR simulation. When we start increasing the lattice dimension, we see a shift in the peak of the simulation, both down and right. This is probably due to the spatial diffusion becoming a factor: individuals in cells further a part from initial outbreaks are not subjected to the virus in the initial stage of the epidemic.
 
-The peak seems to match the real data peak around $d=80,90$, but we should take this information with caution, as we can't really be sure on the starting day of the epidemic from real data. 
+The peak seems to match the real data peak around $d=80,90$, but we should take this piece of information with caution, as we can't really be sure on the starting day of the epidemic from real data. 
 
 However, there is certainly a delay between the peaks of SIR and real data, which seems to be at least partially correctable through the Modified Lattice Model.
 
-Note that different laws of motions, and different initial distributions of the population on the lattice may results in different results in the qualitative behaviour of the Modified LGCA simulations.
+Note that different laws of motions, and initial distributions of the population on the lattice may results in different results in the qualitative behaviour of the Modified LGCA simulations.
 
 Once $d$ becomes too large, the peak seems to flatten out and the trend of new positives seems to be rather stable in time, similarly to what we saw in the original LGCA model. We do not know if the peak will arrive later on in time, but it seems quite unlikely. 
 This suggests that the biggest difference between the two models resides in the grid dimensions rather then the different laws of motions.
