@@ -1,0 +1,17 @@
+\begin{thebibliography}{1}
+
+\bibitem{schneckenreither2008modelling}
+G{\"u}nter Schneckenreither, Nikolas Popper, G{\"u}nther Zauner, and Felix
+  Breitenecker.
+\newblock Modelling sir-type epidemics by odes, pdes, difference equations and
+  cellular automata--a comparative study.
+\newblock {\em Simulation Modelling Practice and Theory}, 16(8):1014--1023,
+  2008.
+
+\bibitem{MA2020129}
+Junling Ma.
+\newblock Estimating epidemic exponential growth rate and basic reproduction
+  number.
+\newblock {\em Infectious Disease Modelling}, 5:129--141, 2020.
+
+\end{thebibliography}
