@@ -248,7 +248,7 @@
 		\node [ot] (box) at (0,0){%
 			\begin{minipage}{0.8\textwidth}
 				\centering
-			 Particles moving on a lattice can interact only inside the same cell
+			 Particles moving on a lattice can interact only inside the same cell [Schneckenreither et al.]
 			\end{minipage}
 		};
 		
@@ -256,7 +256,7 @@
 	\end{tikzpicture}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.9\linewidth]{lattice_states}
+		\includegraphics[width=0.8\linewidth]{lattice_states}
 	\end{figure}
 \end{frame}
 
@@ -321,7 +321,7 @@
 Let $I(c)$ be the number of infected in cell $c$ and let $q_n(p)$ be the state of particle $p \in c$ at time step $n$, then
 \[
 \begin{cases}
-	 \phi_c=\p\left(q_{n+1}(p)=S |q_{n}(p)=S\right)=(1-\alpha_{LG})^{I(c)} \\
+	 \phi_c=\p\left(q_{n+1}(p)=S |q_{n}(p)=S\right)=(1-\beta_{LG})^{I(c)} \\
      \psi_c=\p\left(q_{n+1}(p)=I |q_{n}(p)=S\right)=1-\phi_c\\
      \p\left(q_{n+1}(p)=I |q_{n}(p)=I\right)=1-\beta_{LG} \\
      \p\left(q_{n+1}(p)=R |q_{n}(p)=I\right)=\beta_{LG}

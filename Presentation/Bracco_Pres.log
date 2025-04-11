@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.10)  8 APR 2025 13:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.10)  10 APR 2025 13:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1212,11 +1212,7 @@ Overfull \hbox (74.79176pt too wide) in paragraph at lines 261--261
 File: lattice_states.png Graphic file (type png)
 <use lattice_states.png>
 Package pdftex.def Info: lattice_states.png  used on input line 261.
-(pdftex.def)             Requested size: 308.18968pt x 173.3523pt.
-
-Overfull \vbox (8.93378pt too high) detected at line 261
- []
-
+(pdftex.def)             Requested size: 273.9493pt x 154.08174pt.
 
 
 
@@ -1456,7 +1452,7 @@ Package rerunfilecheck Info: File `Bracco_Pres.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  29445 strings out of 473938
- 586540 string characters out of 5737192
+ 586572 string characters out of 5737192
  1945893 words of memory out of 5000000
  51585 multiletter control sequences out of 15000+600000
  573153 words of font info for 75 fonts, out of 8000000 for 9000
@@ -1477,9 +1473,9 @@ m/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C
 les/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX/fonts/typ
 e1/urw/zapfding/uzdr.pfb>
-Output written on Bracco_Pres.pdf (17 pages, 3024623 bytes).
+Output written on Bracco_Pres.pdf (17 pages, 3024897 bytes).
 PDF statistics:
- 879 PDF objects out of 1000 (max. 8388607)
+ 881 PDF objects out of 1000 (max. 8388607)
  37 named destinations out of 1000 (max. 500000)
  328 words of extra memory for PDF output out of 10000 (max. 10000000)
 
